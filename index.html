@@ -10,6 +10,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- LEAFLET JS-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- APP JS -->
+    <script defer src="app.js"></script>
     <title>MotionMap</title>
 </head>
 <body>
@@ -20,7 +25,7 @@
             </h1>
         </header>
         <ul class="workouts">
-            <form class="form">
+            <form class="form hidden">
                 <div class="form__input-group">
                     <label class="form__label">Type</label>
                     <select class="form__input form__input--type">
@@ -39,17 +44,17 @@
                 <!-- Running -->
                 <div class="form__input-group">
                     <label class="form__label">Cadence</label>
-                    <input class="form__input form__input--distance" placeholder="step/min">
+                    <input class="form__input form__input--cadence" placeholder="step/min">
                 </div>
                 <!-- Cycling -->
                 <!-- <div class="form__input-group">
                     <label class="form__label">Elev Gain</label>
-                    <input class="form__input form__input--distance" placeholder="step/min">
+                    <input class="form__input form__input--elevation" placeholder="m">
                 </div> -->
             </form>
 
             <!-- Workouts -->
-            <li class="workout workout--running" data-id="">
+            <!-- <li class="workout workout--running" data-id="">
                 <h2 class="workout-title">Running on January 28</h2>
                 <div class="workout__details">
                     <div class="workout__detail">
@@ -73,6 +78,7 @@
                         <span class="workout__unit">spm</span>
                     </div>
                 </div>
+                <button class="btn--delete">✖</button>
             </li>
             <li class="workout workout--cycling" data-id="">
                 <h2 class="workout-title">Cycling on January 28</h2>
@@ -98,6 +104,7 @@
                         <span class="workout__unit">m</span>
                     </div>
                 </div>
+                <button class="btn--delete">✖</button>
             </li>
             <li class="workout workout--running" data-id="">
                 <h2 class="workout-title">Running on January 28</h2>
@@ -123,8 +130,34 @@
                         <span class="workout__unit">spm</span>
                     </div>
                 </div>
+                <button class="btn--delete">✖</button>
             </li>
-
+            <li class="workout workout--cycling" data-id="">
+                <h2 class="workout-title">Cycling on January 28</h2>
+                <div class="workout__details">
+                    <div class="workout__detail">
+                        <span class="workout__icon">🚴‍♂️</span>
+                        <span class="workout__value">5</span>
+                        <span class="workout__unit">km</span>
+                    </div>
+                    <div class="workout__detail">
+                        <span class="workout__icon">⏱</span>
+                        <span class="workout__value">20</span>
+                        <span class="workout__unit">min</span>
+                    </div>
+                    <div class="workout__detail">
+                        <span class="workout__icon">⚡</span>
+                        <span class="workout__value">15</span>
+                        <span class="workout__unit">km/h</span>
+                    </div>
+                    <div class="workout__detail">
+                        <span class="workout__icon">⛰</span>
+                        <span class="workout__value">150</span>
+                        <span class="workout__unit">m</span>
+                    </div>
+                </div>
+                <button class="btn--delete">✖</button>
+            </li> -->
         </ul>
         <footer class="footer">
             <p>Copyright &copy; 2024 - Motion</p>

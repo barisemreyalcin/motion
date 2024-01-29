@@ -68,6 +68,7 @@ select:focus {
     display: flex;
     flex-direction: column;
     gap: .75em;
+    position: relative;
 }
 
 .workout--running {
@@ -102,6 +103,29 @@ select:focus {
     color: var(--color-light);
 }
 
+.btn--delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-top-right-radius: .3em;
+    border-bottom-left-radius: .3em;
+    cursor: pointer;
+    background-color: var(--color-light);
+    border: none;
+    color: var(--color-medium);
+    opacity: .5;
+    transition: opacity .4s;
+}
+
+.btn--delete:hover {
+    opacity: .6;
+}
+
 .form,
 .workout {
     background-color: var(--color-medium);
@@ -113,6 +137,15 @@ select:focus {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1em;
+    opacity: 1;
+    transform: translateY(0);
+    transition: .4s transform, .4s opacity;
+}
+
+.form.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20rem);
 }
 
 .form__input-group {
@@ -181,7 +214,7 @@ select:focus {
     }
 
     .workouts {
-        height: 77vh;
+        height: 74vh;
     }
 }
 
