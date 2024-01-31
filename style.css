@@ -40,6 +40,11 @@ select:focus {
     background-color: var(--color-lighter);
 }
 
+.map {
+    height: 100vh;
+    margin: 3.5em;
+}
+
 .sidebar {
     background-color: var(--color-dark);
     padding: 0 3.5rem;
@@ -58,6 +63,7 @@ select:focus {
     overflow-x: hidden;
     overflow-y: scroll;
     height: 60vh;
+    position: relative;
 }
 
 .workouts::-webkit-scrollbar {
@@ -101,6 +107,7 @@ select:focus {
 .workout__unit {
     font-size: 1.2rem;
     color: var(--color-light);
+    text-transform: uppercase;
 }
 
 .btn--delete {
@@ -131,6 +138,7 @@ select:focus {
     background-color: var(--color-medium);
     padding: 1.25em 1.5em;
     border-radius: .3em;
+    transition: all .4s;
 }
 
 .form {
@@ -138,19 +146,23 @@ select:focus {
     grid-template-columns: 1fr;
     gap: 1em;
     opacity: 1;
-    transform: translateY(0);
-    transition: .4s transform, .4s opacity;
+    position: relative;
 }
 
 .form.hidden {
+    position: absolute;
+    z-index: -1;
     opacity: 0;
-    visibility: hidden;
-    transform: translateY(-20rem);
+    pointer-events: none;
 }
 
 .form__input-group {
     display: flex;
     align-items: center;
+}
+
+.form__input-group--hidden {
+    display: none;
 }
 
 .form__label,
@@ -161,6 +173,10 @@ select:focus {
 .form__input {
     border-radius: .25em;
     padding: .35em;
+}
+
+.form__btn {
+    display: none;
 }
 
 .logo {
@@ -202,6 +218,8 @@ select:focus {
     
     .map {
         width: 65%;
+        height: unset;
+        margin: 0;
     }
 
     .workout__details {
