@@ -66,12 +66,14 @@ class App {
     #mapZoom = 13;
     #workouts = [];
     #mapEvent;
+    #markers = {};
 
     constructor() {
         this._getPosition();
         inputType.addEventListener("change", this._toggleCyclingForm.bind(this));
         form.addEventListener("submit", this._newWorkout.bind(this));
         containerWorkouts.addEventListener("click", this._moveToPopup.bind(this));
+        containerWorkouts.addEventListener("click", this._deleteWorkout.bind(this));
     }
 
     _getPosition() {
@@ -155,7 +157,7 @@ class App {
     }
 
     _renderWorkoutMarker(workout) {
-        L.marker(workout.coords)
+        const marker = L.marker(workout.coords)
             .addTo(this.#map)
             .bindPopup(
                 L.popup({
@@ -168,6 +170,16 @@ class App {
             )
             .setPopupContent(`${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`)
             .openPopup();
+        
+        this.#markers[workout.idWorkout] = marker;
+    }
+
+    _removeWorkoutMarker(workout) {
+        const marker = this.#markers[workout.idWorkout];
+        if (marker) {
+            this.#map.removeLayer(marker);
+            delete this.#markers[workout.idWorkout];
+        }
     }
 
     _renderWorkout(workout) {
@@ -203,9 +215,25 @@ class App {
         form.insertAdjacentHTML("afterend", html);
     }
 
+    _deleteWorkout(e) {
+        if(!e.target.classList.contains("btn--delete")) return;
+
+        const workoutEl = e.target.closest(".workout");
+        
+        if(!workoutEl) return;
+
+        const workout = this.#workouts.find(workout => workout.idWorkout === workoutEl.dataset.id);
+
+        this.#workouts.splice(this.#workouts.indexOf(workout), 1);
+
+        workoutEl.remove();
+
+        this._removeWorkoutMarker(workout);
+    }
+
     _moveToPopup(e) {
         if(!this.#map) return; // prevent bugs if map hasn't loaded yet
-
+        
         const workoutEl = e.target.closest(".workout");
 
         if(!workoutEl) return;
