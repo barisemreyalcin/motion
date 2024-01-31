@@ -75,6 +75,7 @@ select:focus {
     flex-direction: column;
     gap: .75em;
     position: relative;
+    cursor: pointer;
 }
 
 .workout--running {

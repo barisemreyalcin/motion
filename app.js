@@ -12,7 +12,7 @@ const inputElevation = document.querySelector(".form__input--elevation");
 // WORKOUT
 class Workout {
     date = new Date();
-    idWorkout = (Date.now + "").slice(-10);
+    idWorkout = (Date.now() + "").slice(-10);
 
     constructor(coords, distance, duration) {
         this.coords = coords;
@@ -71,6 +71,7 @@ class App {
         this._getPosition();
         inputType.addEventListener("change", this._toggleCyclingForm.bind(this));
         form.addEventListener("submit", this._newWorkout.bind(this));
+        containerWorkouts.addEventListener("click", this._moveToPopup.bind(this));
     }
 
     _getPosition() {
@@ -134,7 +135,6 @@ class App {
             if(!validInputs(duration, distance, cadance)) {return  alert("Inputs have to be positive numbers!") };
 
             workout = new Running([lat, lng], distance, duration, cadance);
-            console.log(workout);
         }
 
         if(type === "cycling") {
@@ -143,7 +143,6 @@ class App {
             if(!validInputs(duration, distance, elevationGain)) {return  alert("Inputs have to be positive numbers!") };
 
             workout = new Cycling([lat, lng], distance, duration, elevationGain);
-            console.log(workout);
         }
 
         this.#workouts.push(workout);
@@ -173,7 +172,7 @@ class App {
 
     _renderWorkout(workout) {
         const html = `
-            <li class="workout ${workout.type === "running" ? "workout--running" : "workout--cycling"}" data-id="">
+            <li class="workout ${workout.type === "running" ? "workout--running" : "workout--cycling"}" data-id="${workout.idWorkout}">
                 <h2 class="workout-title">${workout.description}</h2>
                 <div class="workout__details">
                     <div class="workout__detail">
@@ -202,6 +201,21 @@ class App {
             </li>
         `
         form.insertAdjacentHTML("afterend", html);
+    }
+
+    _moveToPopup(e) {
+        if(!this.#map) return; // prevent bugs if map hasn't loaded yet
+
+        const workoutEl = e.target.closest(".workout");
+
+        if(!workoutEl) return;
+
+        const workout = this.#workouts.find(workout => workout.idWorkout === workoutEl.dataset.id);
+
+        this.#map.setView(workout.coords, this.#mapZoom, {
+            animate: true,
+            duration: 1
+        });
     }
 }
 const app =  new App();
