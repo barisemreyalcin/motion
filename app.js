@@ -11,10 +11,18 @@ const inputElevation = document.querySelector(".form__input--elevation");
 
 // WORKOUT
 class Workout {
+    date = new Date();
+    idWorkout = (Date.now + "").slice(-10);
+
     constructor(coords, distance, duration) {
         this.coords = coords;
         this.distance = distance;
         this.duration = duration;
+    }
+
+    _setWorkoutDesc() {
+        const months = ["January", "February", "March", "April", "May", "Jun", "July", "August", "September", "October", "November", "December"];
+        this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`;
     }
 }
 
@@ -26,6 +34,7 @@ class Running extends Workout {
         super(coords, distance, duration);
         this.cadance = cadance;
         this.calcPace();
+        this._setWorkoutDesc();
     }
 
     calcPace() {
@@ -42,6 +51,7 @@ class Cycling extends Workout {
         super(coords, distance, duration);
         this.elevationGain = elevationGain;
         this.calcSpeed();
+        this._setWorkoutDesc();
     }
 
     calcSpeed() {
@@ -146,15 +156,25 @@ class App {
     }
 
     _renderWorkoutMarker(workout) {
-        L.marker(workout.coords).addTo(this.#map)
-            .bindPopup('Workout Position')
+        L.marker(workout.coords)
+            .addTo(this.#map)
+            .bindPopup(
+                L.popup({
+                    maxWidth: 260,
+                    minWidth: 100,
+                    autoClose: false,
+                    closeOnClick: false,
+                    className: `${workout.type}-popup`
+                })
+            )
+            .setPopupContent(`${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`)
             .openPopup();
     }
 
     _renderWorkout(workout) {
         const html = `
             <li class="workout ${workout.type === "running" ? "workout--running" : "workout--cycling"}" data-id="">
-                <h2 class="workout-title">Running on January 28</h2>
+                <h2 class="workout-title">${workout.description}</h2>
                 <div class="workout__details">
                     <div class="workout__detail">
                         <span class="workout__icon">${workout.type === "running" ? "🏃‍♂️" : "🚴"}</span>
